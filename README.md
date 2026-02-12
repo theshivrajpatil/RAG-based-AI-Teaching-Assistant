@@ -1,0 +1,1 @@
+# Loading Whisper For transcription
