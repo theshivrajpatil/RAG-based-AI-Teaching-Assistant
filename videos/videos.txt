@@ -1,2 +1,0 @@
-In this file load the videos whoam we want to process in process_video.py
-This videos get converted into audios(mp3) using " subprocess " library and " ffmpeg " model.
