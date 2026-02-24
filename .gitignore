@@ -1,3 +1,4 @@
 jsons/
 videos/
 embeddings.joblib
+.DS_Store
