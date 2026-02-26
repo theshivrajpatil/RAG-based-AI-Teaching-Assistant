@@ -1,4 +1,7 @@
 jsons/
 videos/
+audios/
 embeddings.joblib
 .DS_Store
+__pycache__/
+*.txt
