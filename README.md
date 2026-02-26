@@ -11,6 +11,12 @@ Convert all the mp3 files to json by ruunning mp3_to_json
 ## Step 4 - Convert the json files to Vectors
 Use the file preprocess_json to convert the json files to a dataframe with Embeddings and save it as a joblib pickle
 
+## Step 5 - Prompt generation and feeding to LLM
+
+Read the joblib file and load it into the memory. Then create a relevant prompt as per the user query and feed it to the LLM
+
+
+
 # Loading Whisper For transcription
 using large-v2 model from whisper for transcription
 I am Facing An issue with my machine. It is not transcribing video to text. 
