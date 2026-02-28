@@ -27,4 +27,6 @@ for filename in os.listdir('jsons'):
             })
         
         # save file without double .json
-        
+        os.makedirs("newjsons", exist_ok = True)
+        with open(os.path.join("newjsons", filename), 'w', encoding = "utf-8") as json_file:
+            json.dump({"chunks": merged_chunks, "text" : data['text']}, json_file, indent = 4)
