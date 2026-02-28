@@ -16,6 +16,7 @@ def create_embedding(text_list):
     return embedding
 
 def inference(prompt):
+    print("Analyzing videos...")
     r = requests.post("http://localhost:11434/api/generate", json={
         # "model": "deepseek-r1",
         "model": "llama3.2",
