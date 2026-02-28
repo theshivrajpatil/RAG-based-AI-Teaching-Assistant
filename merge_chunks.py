@@ -1,0 +1,30 @@
+import os
+import json
+import math
+
+n = 5
+
+for filename in os.listdir('jsons'):
+    if filename.endswith('.json'):
+        filepath = os.path.join('jsons', filename)
+        with open(filepath, 'r', encoding = "utf-8") as f:
+            data = json.load(f)
+        merged_chunks = []
+        num_chunks = len(data['chunks'])
+        num_groups = math.ceil(num_chunks / n)
+
+        for i in range(num_groups):
+            start_index = i * n
+            end_index = min((i + 1) * n, num_chunks)
+            chunk_group = data['chunks'][start_index:end_index]
+            
+            merged_chunks.append({
+                "number" : data['chunks'][0]['number'],
+                "title" : chunk_group[0]['title'],
+                "start" : chunk_group[0]['start'],
+                "end" : chunk_group[-1]['end'],
+                "text" :" ".join(c['text'] for c in chunk_group)
+            })
+        
+        # save file without double .json
+        
