@@ -1,86 +1,103 @@
-# RAG AI Teaching Assistant
+# YouTube RAG Chatbot
 
-A retrieval-augmented generation system that helps students find specific topics within video course content. Uses embeddings and semantic search to locate relevant video segments and timestamps.
+An AI-powered Retrieval-Augmented Generation (RAG) application that lets users chat with any YouTube video. Simply paste a YouTube URL to generate AI-powered notes, ask questions, summarize videos, and interact with the content through natural language.
 
-## Overview
+## Features
 
-This tool transcribes video lectures, chunks them into searchable segments, and uses RAG to answer questions like "where is heading and paragraph taught?" by pointing to specific videos and timestamps.
+- Process any YouTube video using its URL
+- AI-powered question answering
+- Automatic video summarization
+- Generate structured notes
+- Multi-chat conversation history
+- Search previous conversations
+- Delete chat history
+- Fast semantic search using FAISS
+- Context-aware answers using Retrieval-Augmented Generation (RAG)
 
-## Requirements
+## Tech Stack
 
-- Python 3.x
-- ffmpeg
-- Ollama (running locally with bge-m3 and llama3.2 models)
-- whisper, pandas, scikit-learn, joblib, requests
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Streamlit |
+| LLM | Ollama — `llama3.2:latest` |
+| Embeddings | Ollama — `nomic-embed-text:latest` |
+| Vector Database | FAISS |
+| Framework | LangChain |
+| Data Source | YouTube Transcript API, yt-dlp |
+
+## Project Structure
+
+```
+YouTube-RAG-Chatbot/
+├── app.py           # Streamlit UI
+├── backend.py       # Video processing & FAISS creation
+├── chat_engine.py   # RAG chain
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
 
 ## Setup
 
-1. Install dependencies:
+### 1. Clone and install dependencies
+
 ```bash
-pip install whisper pandas scikit-learn joblib requests
+git clone <repo-url>
+cd RAG-based-AI-Teaching-Assistant
+python -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-2. Make sure Ollama is running on localhost:11434 with these models:
+### 2. Install and pull Ollama models
+
+Install [Ollama](https://ollama.com) and pull the required models:
+
 ```bash
-ollama pull bge-m3
-ollama pull llama3.2
+ollama pull llama3.2:latest
+ollama pull nomic-embed-text:latest
 ```
 
-3. Create required folders:
-```bash
-mkdir videos audios jsons newjsons
+Make sure Ollama is running (default: `http://localhost:11434`).
+
+Optional — set a custom Ollama URL in `.env`:
+
 ```
+OLLAMA_BASE_URL=http://localhost:11434
+```
+
+### 3. Run the app
+
+```bash
+streamlit run app.py
+```
+
+Open `http://localhost:8501` in your browser.
 
 ## Usage
 
-### Step 1: Add Videos
-Place your course videos in the `videos` folder.
-
-### Step 2: Extract Audio
-```bash
-python video_to_mp3.py
-```
-Converts videos to mp3 files using ffmpeg.
-
-### Step 3: Transcribe Audio
-```bash
-python mp3_to_json.py
-```
-Uses Whisper large-v2 to transcribe audio and create timestamped JSON files.
-
-### Step 4: Merge and Embed Chunks
-```bash
-python merge_chunks.py
-python preprocess_json.py
-```
-Groups transcription chunks and generates embeddings using bge-m3. Saves as `embeddings.joblib`.
-
-### Step 5: Query the System
-```bash
-python process_incoming.py
-```
-Ask questions about course content. The system finds relevant video segments and responds with video numbers and timestamps.
+1. **Process a video** — Paste a YouTube URL in the sidebar and click **Process Video**.
+2. **Ask questions** — Type questions in the chat input about the video content.
+3. **Summarize** — Click **Summarize** in the sidebar for an AI-generated summary.
+4. **Generate notes** — Click **Notes** for structured study notes.
+5. **Manage history** — Previous chats appear in the sidebar. Search by title or delete old chats.
 
 ## How It Works
 
-1. Videos are transcribed with timestamps
-2. Transcripts are chunked and embedded using bge-m3
-3. User questions are embedded and compared using cosine similarity
-4. Top matching chunks are sent to llama3.2 with context
-5. LLM generates a natural response with video references
+1. The app extracts the video transcript via the YouTube Transcript API (with yt-dlp fallback).
+2. The transcript is split into chunks and embedded using Ollama `nomic-embed-text:latest`.
+3. Embeddings are stored in a local FAISS vector index for fast semantic search.
+4. When you ask a question, the most relevant chunks are retrieved and sent to Ollama `llama3.2:latest`.
+5. The LLM generates a context-aware answer based on the retrieved transcript segments.
 
-## Files
+## Requirements
 
-- `video_to_mp3.py` - Audio extraction
-- `mp3_to_json.py` - Whisper transcription
-- `merge_chunks.py` - Chunk grouping (5 segments per chunk)
-- `preprocess_json.py` - Embedding generation
-- `process_incoming.py` - Query interface
-- `embeddings.joblib` - Stored embeddings database
+- Python 3.10+
+- Ollama running locally with `llama3.2:latest` and `nomic-embed-text:latest`
+- Internet connection for YouTube transcript fetching
 
-## Notes
+> **Note:** If you previously indexed videos with a different embedding model, delete the `data/vectorstores/` folder and re-process those videos.
 
-- Transcription uses Hindi language with English translation
-- Adjust chunk size by changing `n` in merge_chunks.py
-- Model can be switched in process_incoming.py (currently uses llama3.2)
-- Top 5 results are used for context generation
+## License
+
+MIT

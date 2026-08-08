@@ -1,8 +1,30 @@
-jsons/
-newjsons/
-videos/
-audios/
-embeddings.joblib
-.DS_Store
+# Environment
+.env
+.env.*
+
+# Python
 __pycache__/
-*.txt
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Data & vector stores
+data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Streamlit
+.streamlit/secrets.toml
