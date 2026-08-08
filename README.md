@@ -19,7 +19,7 @@ An AI-powered Retrieval-Augmented Generation (RAG) application that lets users c
 | Layer | Technology |
 |-------|-----------|
 | Frontend | Streamlit |
-| LLM | Ollama — `llama3.2:latest` |
+| LLM | Ollama — `mistral:latest  ` |
 | Embeddings | Ollama — `nomic-embed-text:latest` |
 | Vector Database | FAISS |
 | Framework | LangChain |
