@@ -10,7 +10,7 @@ from langchain_ollama import ChatOllama
 
 from backend import get_full_transcript, load_vectorstore
 
-LLM_MODEL = "llama3.2:latest"
+LLM_MODEL = "mistral:latest"
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 RETRIEVAL_K = 5
 
